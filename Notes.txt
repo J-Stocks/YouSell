@@ -1,0 +1,15 @@
+﻿https://stackoverflow.com/questions/9720143/asp-net-web-application-message-box
+
+https://stackoverflow.com/questions/14713782/asp-net-mvc-console-writeline-to-browser
+
+ToDo:
+
+Basic search page
+
+Lot Details page
+	Add bid
+	show current bids
+
+My account:
+	show my bids
+	show my lots

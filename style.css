@@ -1,0 +1,86 @@
+﻿/* Section 1 Colour scheme guide. */
+/* Section 2 Site wide element styleing */
+/* Section 3 Common flex classes. */
+/* Section 4 Master page */
+/* Section 5 Register and login */
+/* Section 6 My Account */
+
+/* Section 1 */
+/* Colour scheme guide */
+/* TBD */
+
+/* Section 2 */
+/* Page wide element styleing */
+body {
+    color: blue;
+}
+
+/* Section 3 */
+/*Common Flex classes*/
+.flexCenter{
+  display: flex;
+  justify-content: center;
+}
+
+.flexBetween{
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexAround{
+  display: flex;
+  justify-content: space-around;
+}
+
+.flexStart{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flexEnd{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flexCol{
+  flex-direction: column;
+}
+
+.noVertStretch{
+  align-items: center;
+}
+
+/* Section 4 */
+/* Master page layout and style. */
+
+/* Section 5 */
+/* Register and login form style. */
+
+#registerGrid{
+    display: grid;
+    grid-column-template: auto auto;
+    grid-row-gap: 0.5em;
+    grid-column-gap: 0.5em;
+    /*grid-row-template: ;*/
+}
+
+#loginGrid{
+    display: grid;
+    grid-column-template: auto auto;
+    grid-row-gap: 0.5em;
+    grid-column-gap: 0.5em;
+}
+
+.gridColSpan2{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+/* Section 6  */
+/* My Account */
+#addLotGrid{
+    display: grid;
+    grid-column-template: auto auto;
+    grid-row-gap: 0.5em;
+    grid-column-gap: 0.5em;
+}

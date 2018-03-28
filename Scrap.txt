@@ -25,3 +25,14 @@ FROM lot
 INNER JOIN category ON lot.categoryId = category.categoryId 
 INNER JOIN [user] ON lot.sellerId = [user].userId 
 WHERE lot.lotId = @lotId;
+
+
+SELECT 
+    bid.lotId, 
+    lot.lotName AS 'Name', 
+    bid.amount AS 'Your Bid', 
+    bid.bidDate AS 'Bid Date', 
+    lot.endDate AS 'EndDate' 
+FROM [bid]
+INNER JOIN lot ON bid.lotId = lot.lotID 
+WHERE bid.buyerId = @buyerId;

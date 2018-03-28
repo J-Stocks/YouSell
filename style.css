@@ -84,3 +84,7 @@ body {
     grid-row-gap: 0.5em;
     grid-column-gap: 0.5em;
 }
+
+img{
+    max-width: 250px;
+}

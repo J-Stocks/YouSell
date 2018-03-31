@@ -36,3 +36,14 @@ SELECT
 FROM [bid]
 INNER JOIN lot ON bid.lotId = lot.lotID 
 WHERE bid.buyerId = @buyerId;
+
+SELECT 
+    lot.lotId, 
+    lot.lotName AS 'Name', 
+    category.categoryName AS 'Category', 
+    lot.startDate AS 'Start Date', 
+    lot.endDate AS 'End Date', 
+    lot.imageUrl AS 'imageUrl' 
+FROM lot 
+INNER JOIN category ON lot.categoryId = category.categoryId 
+WHERE lot.endDate > @endDate;

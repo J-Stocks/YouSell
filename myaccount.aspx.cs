@@ -86,11 +86,4 @@ public partial class myaccount : System.Web.UI.Page
                 break;
         }
     }
-
-    protected void GridViewMyBids_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        int rowNum = GridViewMyBids.SelectedIndex;
-        Session["lotId"] = GridViewMyBidsHidden.Rows[rowNum].Cells[0].Text;
-        Response.Redirect("lot.aspx");
-    }
 }

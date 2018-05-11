@@ -2,14 +2,111 @@
 
 https://stackoverflow.com/questions/14713782/asp-net-mvc-console-writeline-to-browser
 
-ToDo:
+https://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
 
-Basic search page
+Font: https://fonts.google.com/selection?category=Sans+Serif,Display,Handwriting,Monospace&selection.family=Work+Sans
 
-Lot Details page
-	Add bid
-	show current bids
 
-My account:
-	show my bids
-	show my lots
+INSERT INTO lot(sellerId, categoryId, lotName, description, imageUrl, startingBid, startDate, endDate) VALUES (@sellerId, @categoryId, @lotName, @description, @imageUrl, @startingBid, @startDate, @endDate)
+
+SELECT * FROM lot INNER JOIN bid ON lot.lotId = bid.lotId  WHERE lot.lotId = @lotId AND WHERE bid.bidDate = (SELECT bid.bidDate FROM bid WHERE bid.lotId = @lotId ORDER BY bid.bidDate DESC LIMIT 1) 
+
+SELECT * FROM lot INNER JOIN bid ON lot.lotId = bid.lotId  WHERE lot.lotId = @lotId ORDER BY bid.bidDate DESC LIMIT 1
+
+SQLDataSourceBid
+	SELECT * FROM [bid] WHERE (([lotId] = @lotId) AND ([buyerId] = @buyerId))
+	UPDATE bid SET amount = @amount, bidDate = @bidDate WHERE (buyerId = @userId) AND (lotId = @lotId)
+	INSERT INTO bid(buyerId, lotId, amount, bidDate) VALUES (@buyerId, @lotId, @amount, @bidDate)
+
+INSERT INTO bid(buyerId, lotId, amount, bidDate) VALUES (@buyerId, @lotId, @amount, @bidDate)
+
+Basic union thing:
+
+SELECT lot.lotId, lot.lotName, bid.amount AS 'Current Bid' FROM lot INNER JOIN bid ON lot.lotId = bid.lotId
+
+UNION
+
+SELECT lot.lotId, lot.lotName, lot.startingBid AS 'Current Bid' FROM lot WHERE lotId NOT IN (SELECT lot.lotId FROM lot INNER JOIN bid ON lot.lotId = bid.lotId)
+
+
+Search SQL:
+
+SELECT 
+	lot.lotId, 
+	lot.lotName AS 'Name', 
+	category.categoryName AS 'Category', 
+	lot.startDate AS 'Start Date', 
+	lot.endDate AS 'End Date', 
+	(SELECT TOP 1 amount FROM bid WHERE bid.lotId = lot.lotId ORDER BY amount DESC) AS 'Current Bid', 
+	lot.imageUrl AS 'imageUrl' 
+FROM lot 
+INNER JOIN category ON lot.categoryId = category.categoryId 
+WHERE 
+	lot.endDate > @endDate 
+	AND lot.lotId IN (SELECT lotId FROM bid) 
+
+UNION 
+
+SELECT 
+	lot.lotId, 
+	lot.lotName AS 'Name', 
+	category.categoryName AS 'Category', 
+	lot.startDate AS 'Start Date', 
+	lot.endDate AS 'End Date', 
+	lot.startingBid AS 'Current Bid', 
+	lot.imageUrl AS 'imageUrl' 
+FROM lot 
+INNER JOIN category ON lot.categoryId = category.categoryId 
+WHERE 
+	lot.endDate > @endDate 
+	AND lot.lotId NOT IN (SELECT lotId FROM bid)
+;
+
+
+
+My Lots SQL
+
+SELECT 
+    lot.lotId,
+	lot.lotName AS 'Name',
+	category.categoryName AS 'Category',
+	lot.startDate AS 'Start Date',
+	lot.endDate AS 'End Date',
+	(SELECT TOP 1 amount FROM bid WHERE bid.lotId = lot.lotId ORDER BY amount DESC) AS 'Current Bid', 
+	lot.imageUrl AS 'imageUrl'
+FROM lot
+INNER JOIN category ON lot.categoryId = category.categoryId 
+WHERE 
+	([sellerId] = @sellerId)
+	AND lot.lotId IN (SELECT lotId FROM bid)
+
+UNION
+
+SELECT 
+    lot.lotId,
+	lot.lotName AS 'Name',
+	category.categoryName AS 'Category',
+	lot.startDate AS 'Start Date',
+	lot.endDate AS 'End Date',
+	lot.startingBid AS 'Current Bid', 
+	lot.imageUrl AS 'imageUrl'
+FROM lot
+INNER JOIN category ON lot.categoryId = category.categoryId 
+WHERE 
+	([sellerId] = @sellerId)
+	AND lot.lotId NOT IN (SELECT lotId FROM bid)
+;
+
+My Bids SQL
+
+SELECT 
+    bid.lotId, 
+    lot.lotName AS 'Name', 
+    bid.amount AS 'Your Bid', 
+    bid.bidDate AS 'Bid Date', 
+    lot.endDate AS 'EndDate',
+    (SELECT TOP 1 amount FROM bid WHERE bid.lotId = lot.lotId ORDER BY amount DESC) AS 'Current Bid',
+	(SELECT TOP 1 [user].username FROM bid INNER JOIN [user] ON bid.buyerId = [user].userId WHERE bid.lotId = lot.lotId ORDER BY bid.amount DESC) AS 'Winning Bidder'
+FROM [bid]
+INNER JOIN lot ON bid.lotId = lot.lotID 
+WHERE bid.buyerId = @buyerId;

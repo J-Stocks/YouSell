@@ -4,37 +4,12 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Search
+/// Functions to assist the search feature on search.aspx
 /// </summary>
 public class Search
 {
-    public Search()
-    {
-        //
-        // TODO: Add constructor logic here
-        //
-    }
 
     public static string acceptableCharacters = "abcdefghijklmnopqrstuvwxyz ";
-
-    //Probably won't use this one.
-    public static string cleanSearchString2(string input)
-    {
-        string tempInput = input.ToLower();
-        int i = 0;
-        while (i < tempInput.Length)
-        {
-            if (acceptableCharacters.IndexOf(tempInput.Substring(i,1)) < 0)
-            {
-                tempInput = tempInput.Substring(0, i) + tempInput.Substring(i + 1);
-            }
-            else
-            {
-                i++;
-            }
-        }
-        return tempInput;
-    }
 
     public static bool isAcceptableChar(char input)
     {

@@ -11,4 +11,13 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
 
     }
+
+    protected void ButtonLogOut_Click(object sender, EventArgs e)
+    {
+        Session["login"] = false;
+        Session["userID"] = null;
+        Session["userRole"] = null;
+        Session["lotID"] = null;
+        Response.Redirect("home.aspx");
+    }
 }

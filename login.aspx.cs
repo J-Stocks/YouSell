@@ -20,7 +20,7 @@ public partial class login : System.Web.UI.Page
             Session["login"] = true;
             Session["userID"] = GridViewLogin.Rows[0].Cells[0].Text;
             Session["userRole"] = GridViewLogin.Rows[0].Cells[1].Text;
-            System.Diagnostics.Debug.WriteLine(Session["userRole"]);
+            //System.Diagnostics.Debug.WriteLine(Session["userRole"]);
             Response.Redirect("myaccount.aspx");
         }
         else

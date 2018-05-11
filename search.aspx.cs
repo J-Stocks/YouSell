@@ -21,25 +21,32 @@ public partial class search : System.Web.UI.Page
 
     protected void ButtonSearch_Click(object sender, EventArgs e)
     {
-        string tempQuery = "SELECT lot.lotId, lot.lotName AS 'Name', category.categoryName AS 'Category', lot.startDate AS 'Start Date', lot.endDate AS 'End Date', lot.imageUrl AS 'imageUrl' FROM lot INNER JOIN category ON lot.categoryId = category.categoryId WHERE lot.endDate > @endDate";
+        string tempQueryWithBids = "SELECT lot.lotId, lot.lotName AS 'Name', category.categoryName AS 'Category', lot.startDate AS 'Start Date', lot.endDate AS 'End Date', (SELECT TOP 1 amount FROM bid WHERE bid.lotId = lot.lotId ORDER BY amount DESC) AS 'Current Bid', lot.imageUrl AS 'imageUrl' FROM lot INNER JOIN category ON lot.categoryId = category.categoryId WHERE lot.endDate > @endDate AND lot.lotId IN (SELECT lot.lotId FROM lot INNER JOIN bid ON lot.lotId = bid.lotId)";
+        string tempQueryNoBids = "SELECT lot.lotId, lot.lotName AS 'Name', category.categoryName AS 'Category', lot.startDate AS 'Start Date', lot.endDate AS 'End Date', lot.startingBid AS 'Current Bid', lot.imageUrl AS 'imageUrl' FROM lot INNER JOIN category ON lot.categoryId = category.categoryId WHERE lot.endDate > @endDate AND lot.lotId NOT IN (SELECT lot.lotId FROM lot INNER JOIN bid ON lot.lotId = bid.lotId)";
 
         if (DropDownListCategory.SelectedValue != "0")
         {
-            tempQuery += " AND lot.categoryId = " + DropDownListCategory.SelectedValue;
+            tempQueryWithBids += " AND lot.categoryId = " + DropDownListCategory.SelectedValue;
+            tempQueryNoBids += " AND lot.categoryId = " + DropDownListCategory.SelectedValue;
         }
 
         string[] searchTerms = Search.getSearchTerms(TextBoxLotName.Text);
         if (searchTerms.Length > 0)
         {
-            for (int i = 0; i < searchTerms.Length; i++)
+            foreach (string term in searchTerms)
             {
-                tempQuery += " AND ( lot.lotName LIKE '%" + searchTerms[i] + "%' OR lot.description LIKE '%" + searchTerms[i] + "%' )";
+                tempQueryWithBids += " AND ( lot.lotName LIKE '%" + term + "%' OR lot.description LIKE '%" + term + "%' )";
+                tempQueryNoBids += " AND ( lot.lotName LIKE '%" + term + "%' OR lot.description LIKE '%" + term + "%' )";
             }
+            //for (int i = 0; i < searchTerms.Length; i++)
+            //{
+            //    tempQuery += " AND ( lot.lotName LIKE '%" + searchTerms[i] + "%' OR lot.description LIKE '%" + searchTerms[i] + "%' )";
+            //}
         }
 
-        tempQuery += ";";
+        string finalQuery = tempQueryWithBids + " UNION " + tempQueryNoBids + ";";
 
-        SqlDataSourceSearch.SelectCommand = tempQuery;
+        SqlDataSourceSearch.SelectCommand = finalQuery;
         GridViewSearchResults.DataBind();
         GridViewSearchResultsHidden.DataBind();
     }

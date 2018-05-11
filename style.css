@@ -2,60 +2,237 @@
 /* Section 2 Site wide element styleing */
 /* Section 3 Common flex classes. */
 /* Section 4 Master page */
-/* Section 5 Register and login */
-/* Section 6 My Account */
+/* Section 5 gridview styleing*/
+/* Section 6 Page Layouts */
 
 /* Section 1 */
 /* Colour scheme guide */
-/* TBD */
+/* Page background colour: #ffffffff */
+/* Text colour: #000000*/
+/* Highlight colour 1 (borders and lines): #FF8C42 */
+/* Highlight colour 2 (backgrounds): #FFB080 */
 
 /* Section 2 */
 /* Page wide element styleing */
+@font-face{
+    font-family: "Work Sans";
+    src: url("../fonts/WorkSans-Regular.ttf");
+}
+
 body {
-    color: blue;
+    font-family: "Work Sans", Verdana, sans-serif;
+    color: #000000;
+    /*background-color: #ffefe6;*/
+}
+
+body,h1,h2,h3,h4,h5,p,ul,li,ol{
+    padding: 0;
+    margin: 0;
+}
+
+input, input:focus, input:hover, select, select:focus, select:hover{
+    outline: none;
+}
+
+input[type="text"], input[type="file"], input[type="password"], input[type="submit"], select{
+    font-family: "Work Sans", Verdana, sans-serif;
+    font-size: 1em;
+    background-color: #FFB080;
+    border: 3px solid #FF8C42;
+    padding: 0.3em;
+    transition: all ease-in-out 0.2s;
+}
+
+input[type="text"]:focus, input[type="text"]:hover, input[type="file"]:focus, input[type="file"]:hover, input[type="password"]:focus, input[type="password"]:hover, input[type="submit"]:focus, input[type="submit"]:hover, select:focus, select:hover{
+    background-color: #FF8C42;
+}
+
+label{
+    display: inline-flex;
+    align-items: center;
 }
 
 /* Section 3 */
 /*Common Flex classes*/
 .flexCenter{
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .flexBetween{
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .flexAround{
-  display: flex;
-  justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
 }
 
 .flexStart{
-  display: flex;
-  justify-content: flex-start;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .flexEnd{
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .flexCol{
-  flex-direction: column;
+    flex-direction: column;
 }
 
-.noVertStretch{
-  align-items: center;
+.vertCenter{
+    align-items: center;
 }
 
 /* Section 4 */
 /* Master page layout and style. */
+.mainHolder{
+    display: grid;
+    grid-template-columns: minmax(0.5em, 1fr) auto minmax(0.5em, 1fr);
+    grid-template-rows: 4em auto 3em;
+    min-height: 100vh;
+    grid-row-gap: 0.5em;
+    /*grid-column-gap: 0.5em;*/
+}
 
-/* Section 5 */
-/* Register and login form style. */
+#leftPad{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
 
+#rightPad{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
+
+.borderBottom{
+    border-bottom: 0.5em solid #FF8C42;
+    background-color: #FFB080;
+}
+
+.logo{
+    white-space: nowrap;
+    margin-right: 0.25em;
+}
+
+.navBar{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    height: 100%;
+}
+
+.navLink{
+    text-decoration: none;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    border-bottom: 0.2em solid #FF8C42;
+    display: flex;
+    justify-content: center;
+    color: #000000;
+    font-size: 1.2em;
+    text-align: center;
+    flex-direction: column;
+    height: 100%;
+    white-space: nowrap;
+    transition: all ease-in-out 0.2s;
+}
+
+.navLink:hover{
+    background-color: #FF8C42;
+}
+
+#logOutDiv{
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    width: 100%;
+    height: 100%;
+}
+
+#ButtonLogOut{
+    font-family: "Work Sans", Verdana, sans-serif;
+    color: #000000;
+    background: none;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 1.2em;
+    text-align: center;
+    height: 100%;
+    white-space: nowrap;
+    border: none;
+    transition: all ease-in-out 0.2s;
+}
+
+#ButtonLogOut:hover{
+    background-color: #FF8C42;
+}
+
+.errorMessage{
+    color: #ff3300;
+}
+
+/* Section 5 gridview styleing*/
+
+.basicGridView{
+    border: none;
+}
+
+.basicGridView caption{
+    font-family: "Work Sans", Verdana, sans-serif;
+    font-size: 1.3em;
+    padding-top:0.2em;
+    padding-bottom: 0.2em;
+}
+
+.basicGridView td,.basicGridView th{
+    padding: 0.2em;
+    border-collapse: collapse;
+    border: 3px solid #FF8C42;
+}
+
+.basicGridView input[type="button"]{
+    font-family: "Work Sans", Verdana, sans-serif;
+    font-size: 1.2em;
+    background-color: #FFB080;
+    border: 3px solid #FF8C42;
+    padding: 0.3em;
+    transition: all ease-in-out 0.2s;
+}
+
+.basicGridView input[type="button"]:hover, .basicGridView input[type="button"]:focus{
+    background-color: #FF8C42;
+}
+
+.basicGridView img{
+    max-width: 250px;
+    max-height: 200px;
+}
+
+.noBorders1 td:nth-child(1), .noBorders1 th:nth-child(1){
+    border: none;
+}
+
+.noBorders2 td:nth-child(1), .noBorders2 td:nth-child(2), .noBorders2 th:nth-child(1), .noBorders2 th:nth-child(2){
+    border: none;
+}
+
+/* Section 6 Page Layouts */
+
+.gridColSpan2{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+/* Register */
 #registerGrid{
     display: grid;
     grid-column-template: auto auto;
@@ -64,6 +241,7 @@ body {
     /*grid-row-template: ;*/
 }
 
+/* Login */
 #loginGrid{
     display: grid;
     grid-column-template: auto auto;
@@ -71,20 +249,51 @@ body {
     grid-column-gap: 0.5em;
 }
 
-.gridColSpan2{
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-
-/* Section 6  */
 /* My Account */
 #addLotGrid{
     display: grid;
-    grid-column-template: auto auto;
+    grid-column-template: auto auto auto auto;
     grid-row-gap: 0.5em;
     grid-column-gap: 0.5em;
+    padding-top: 0.5em;
 }
 
-img{
-    max-width: 250px;
+#ContentPlaceHolder1_lotDescription{
+    min-width: 350px;
+}
+
+.gridColSpan2to4{
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+.gridColSpan4{
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
+/* Lot */
+#lotPageGrid{
+    display: grid;
+    grid-column-template: 1fr 1fr;
+    grid-row-template: auto auto;
+    grid-row-gap: 0.5em;
+}
+
+#lotPageGrid input[type="text"]{
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+}
+
+/* Search */
+#searchCriteria input, #searchCriteria select{
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    margin-right: 0.2em;
+}
+
+#searchCriteria label{
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    margin-right: 0.2em;
 }

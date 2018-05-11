@@ -11,15 +11,30 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav>
-            <asp:TreeView ID="TreeView1" runat="server" DataSourceID="SiteMapDataSourceNav" ShowLines="True">
-            </asp:TreeView>
-            <asp:SiteMapDataSource ID="SiteMapDataSourceNav" runat="server" />
-        </nav>
-        <div>
-            <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        <div class="mainHolder">
+            <div class="borderBottom"></div>
+            <header class="flexStart vertCenter borderBottom">
+                <h1 class="logo">You Sell</h1>
+                <nav class="navBar">
+                    <a href="home.aspx" class="navLink">Home</a>
+                    <a href="register.aspx" class="navLink">Register</a>
+                    <a href="login.aspx" class="navLink">Login</a>
+                    <a href="myaccount.aspx" class="navLink">My Account</a>
+                    <a href="search.aspx" class="navLink">Search</a>
+                </nav>
+                <div id="logOutDiv">
+                    <asp:Button ID="ButtonLogOut" runat="server" Text="Log Out" OnClick="ButtonLogOut_Click" />
+                </div>
+            </header>
+            <div class="borderBottom"></div>
+            <div id="leftPad"></div>
+            <div>
+                <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
         
-            </asp:ContentPlaceHolder>
+                </asp:ContentPlaceHolder>
+            </div>
+            <div id="rightPad"></div>
+            <footer class="flexStart vertCenter">Copyright © 2018 Joshua Stocks U1757754. All rights reserved.</footer>
         </div>
     </form>
 </body>

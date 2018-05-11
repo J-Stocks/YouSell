@@ -1,20 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="login" %>
+﻿<%@ Page Title="Login - You Sell" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <h1 class="flexCenter">Login</h1>
+    <h2 class="flexCenter">Login</h2>
     <div class="flexCenter">
         <div id="loginGrid">
             <asp:Label ID="LabelUserName" runat="server" Text="User Name:" AssociatedControlID="userName"></asp:Label>
-            <asp:textbox ID="userName" runat="server"></asp:textbox>
+            <asp:textbox ID="userName" runat="server" MaxLength="40" TextMode="SingleLine"></asp:textbox>
             <asp:Label ID="LabelPassword" runat="server" Text="Password:" AssociatedControlID="password"></asp:Label>
-            <asp:TextBox ID="password" runat="server"></asp:TextBox>
+            <asp:TextBox ID="password" runat="server" MaxLength="30" TextMode="Password"></asp:TextBox>
             <div class="flexCenter gridColSpan2">
                 <asp:Button ID="ButtonLogin" runat="server" Text="Login" OnClick="ButtonLogin_Click"/>
             </div>
             <div class="flexCenter gridColSpan2">
-                <asp:Label ID="LabelLoginErrorMessage" runat="server" Text=""></asp:Label>
+                <asp:Label ID="LabelLoginErrorMessage" runat="server" Text="" CssClass="errorMessage"></asp:Label>
             </div>
         </div>
     </div>

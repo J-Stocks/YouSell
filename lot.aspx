@@ -1,42 +1,43 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="lot.aspx.cs" Inherits="lot" %>
+﻿<%@ Page Title="Lot Details - You Sell" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="lot.aspx.cs" Inherits="lot" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <h1>Lot</h1>
-    <div>
-        <asp:GridView ID="GridViewLotDetails" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSourceLot">
-            <Columns>
-                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
-                <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
-                <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
-                <asp:BoundField DataField="Starting Bid" HeaderText="Starting Bid" SortExpression="Starting Bid" DataFormatString="{0:c}" />
-                <asp:BoundField DataField="Start Date" HeaderText="Start Date" SortExpression="Start Date" DataFormatString="{0:f}" />
-                <asp:BoundField DataField="End Date" HeaderText="End Date" SortExpression="End Date" DataFormatString="{0:f}" />
-                <asp:BoundField DataField="Seller" HeaderText="Seller" SortExpression="Seller" />
-                <asp:BoundField DataField="imageUrl" HeaderText="imageUrl" SortExpression="imageUrl" Visible="False" />
-                <asp:ImageField DataImageUrlField="imageUrl" HeaderText="Image"></asp:ImageField>
-            </Columns>
-        </asp:GridView>
-    </div>
-    <div>
-        <asp:PlaceHolder ID="PlaceHolderBidHistory" runat="server">
-            <h2>Bid History</h2>
-            <asp:GridView ID="GridViewBidHistory" runat="server" DataSourceID="SqlDataSourceBidHistory" AutoGenerateColumns="False">
+    <div id="lotPageGrid">
+        <div class="gridColSpan2">
+            <asp:GridView ID="GridViewLotDetails" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSourceLot" CssClass="basicGridView" Caption="Lot Details">
                 <Columns>
-                    <asp:BoundField DataField="Buyer" HeaderText="Buyer" SortExpression="Buyer"></asp:BoundField>
-                    <asp:BoundField DataField="Bid" HeaderText="Bid" SortExpression="Bid" DataFormatString="{0:c}"></asp:BoundField>
-                    <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" DataFormatString="{0:f}"></asp:BoundField>
+                    <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                    <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
+                    <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+                    <asp:BoundField DataField="Starting Bid" HeaderText="Starting Bid" SortExpression="Starting Bid" DataFormatString="{0:c}" />
+                    <asp:BoundField DataField="Start Date" HeaderText="Start Date" SortExpression="Start Date" DataFormatString="{0:f}" />
+                    <asp:BoundField DataField="End Date" HeaderText="End Date" SortExpression="End Date" DataFormatString="{0:f}" />
+                    <asp:BoundField DataField="Seller" HeaderText="Seller" SortExpression="Seller" />
+                    <asp:BoundField DataField="imageUrl" HeaderText="imageUrl" SortExpression="imageUrl" Visible="False" />
+                    <asp:ImageField DataImageUrlField="imageUrl" HeaderText="Image"></asp:ImageField>
                 </Columns>
             </asp:GridView>
-        </asp:PlaceHolder>
-    </div>
-    <div>
-        <h2>Make a bid</h2>
-        <asp:Label ID="LabelBidBox" runat="server" Text="Bid:" AssociatedControlID="bidBox"></asp:Label>
-        <asp:TextBox ID="bidBox" runat="server"></asp:TextBox>
-        <asp:Button ID="ButtonBid" runat="server" Text="Confirm" OnClick="ButtonBid_Click" />
-        <asp:Label ID="LabelBidErrorMessage" runat="server" Text="" AssociatedControlID="bidBox"></asp:Label>
+        </div>
+        <div class="flexStart flexCol">
+            <div class="flexStart vertCenter">
+                <asp:Label ID="LabelBidBox" runat="server" Text="Make A Bid:" AssociatedControlID="bidBox"></asp:Label>
+                <asp:TextBox ID="bidBox" runat="server"></asp:TextBox>
+                <asp:Button ID="ButtonBid" runat="server" Text="Confirm" OnClick="ButtonBid_Click" />
+            </div>
+            <asp:Label ID="LabelBidErrorMessage" runat="server" Text="" AssociatedControlID="bidBox" CssClass="errorMessage"></asp:Label>
+        </div>
+        <div>
+            <asp:PlaceHolder ID="PlaceHolderBidHistory" runat="server">
+                <asp:GridView ID="GridViewBidHistory" runat="server" DataSourceID="SqlDataSourceBidHistory" AutoGenerateColumns="False" CssClass="basicGridView" Caption="Bid History">
+                    <Columns>
+                        <asp:BoundField DataField="Buyer" HeaderText="Buyer" SortExpression="Buyer"></asp:BoundField>
+                        <asp:BoundField DataField="Bid" HeaderText="Bid" SortExpression="Bid" DataFormatString="{0:c}"></asp:BoundField>
+                        <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" DataFormatString="{0:f}"></asp:BoundField>
+                    </Columns>
+                </asp:GridView>
+            </asp:PlaceHolder>
+        </div>
     </div>
     <div>
         <asp:GridView ID="GridViewAddBid" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSourceBid" Visible="False" DataKeyNames="buyerId,lotId">

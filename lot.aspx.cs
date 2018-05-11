@@ -28,7 +28,7 @@ public partial class lot : System.Web.UI.Page
     {
         LabelBidErrorMessage.Text = "";
         double userBid;
-        bool validBid = Double.TryParse(bidBox.Text, out userBid);
+        bool validBid = double.TryParse(bidBox.Text, out userBid);
         Session["buyerBid"] = userBid;
         Session["now"] = DateTime.Now;
         bool exitingBids = GridViewBidHistory.Rows.Count != 0;
@@ -67,6 +67,7 @@ public partial class lot : System.Web.UI.Page
                 PlaceHolderBidHistory.Visible = true;
             }
 
+            GridViewLotDetails.DataBind();
             GridViewBidHistory.DataBind();
             GridViewAddBid.DataBind();
         }

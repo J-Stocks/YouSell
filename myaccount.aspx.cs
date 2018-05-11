@@ -29,25 +29,73 @@ public partial class myaccount : System.Web.UI.Page
 
     protected void ButtonAddLot_Click(object sender, EventArgs e)
     {
-        Session["startingBid"] = Convert.ToDouble(startBid.Text);
-        Session["startDate"] = DateTime.Now;
-        Session["endDate"] = Convert.ToDateTime(endDate.Text);
+        double userStartBid;
+        bool validStartBid = double.TryParse(startBid.Text, out userStartBid);
+        if (validStartBid)
+        {
+            validStartBid = validStartBid && userStartBid >= 0;
+        }
+
+        DateTime userEndDate;
+        bool validEndDate = DateTime.TryParse(endDate.Text, out userEndDate);
+        if (validEndDate)
+        {
+            validEndDate = validEndDate && DateTime.Compare(userEndDate, DateTime.Now) > 0;
+        }
+
         FileUpload userImage = FileUploadImage;
-        string imageFilepath = "~/images/user/" + userImage.FileName;
-        if (imageFilepath != "~/images/user/")
+        string imageFileExtention = userImage.FileName.ToLower().Substring(userImage.FileName.IndexOf(".") + 1);
+        bool validFileExtention = imageFileExtention.IndexOf("jpg") >= 0 || imageFileExtention.IndexOf("png") >= 0 || imageFileExtention.IndexOf("jpeg") >= 0;
+        bool validFilenameLength = true;
+        if (userImage.HasFile)
         {
-            Session["imageUrl"] = imageFilepath;
-            string serverFilepath = Server.MapPath(imageFilepath);
-            userImage.PostedFile.SaveAs(serverFilepath);
+            validFilenameLength = userImage.FileName.Length <= 200;
         }
-        else
+
+        if (validStartBid && validEndDate && ((validFileExtention && validFilenameLength) || !userImage.HasFile))
         {
-            Session["imageUrl"] = "";
+            Session["startingBid"] = userStartBid;
+            Session["startDate"] = DateTime.Now;
+            Session["endDate"] = userEndDate;
+            if (userImage.HasFile)
+            {
+                string imageFilepath = "~/images/user/" + userImage.FileName;
+                Session["imageUrl"] = imageFilepath;
+                string serverFilepath = Server.MapPath(imageFilepath);
+                userImage.PostedFile.SaveAs(serverFilepath);
+            }
+            else
+            {
+                Session["imageUrl"] = "~/images/static/imageunavailable.png";
+            }
+            SqlDataSourceAddLot.Insert();
+            GridViewMyLots.DataBind();
+            GridViewMyLotsHidden.DataBind();
+            PlaceHolderMyLots.Visible = true;
         }
-        SqlDataSourceAddLot.Insert();
-        GridViewMyLots.DataBind();
-        GridViewMyLotsHidden.DataBind();
-        PlaceHolderMyLots.Visible = true;
+        if (!validStartBid)
+        {
+            LabelStartBidErrorMessage.Text = "Please enter a valid Starting bid.";
+        }
+        if (!validEndDate)
+        {
+            LabelEndDateErrorMessage.Text = "Please enter a valid End Date";
+        }
+        if (userImage.HasFile)
+        {
+            if (!validFileExtention && !validFilenameLength)
+            {
+                LabelUploadImageErrorMessage.Text = "Please upload a .jpg or .png image with a filename less than 200 characters long.";
+            }
+            else if (!validFileExtention)
+            {
+                LabelUploadImageErrorMessage.Text = "Please upload a .jpg or .png image.";
+            }
+            else if (!validFilenameLength)
+            {
+                LabelUploadImageErrorMessage.Text = "Filename must be less than 200 characters.";
+            }
+        }
     }
 
     protected void GridViewMyLots_RowCommand1(object sender, GridViewCommandEventArgs e)
@@ -62,6 +110,9 @@ public partial class myaccount : System.Web.UI.Page
             case "deleteLot":
                 SqlDataSourceCleanUpBids.Delete();
                 SqlDataSourceMyLots.Delete();
+                GridViewMyLots.DataBind();
+                GridViewMyLotsHidden.DataBind();
+                GridViewMyBids.DataBind();
                 break;
             default:
                 System.Diagnostics.Debug.WriteLine("Invalid Command Name");
@@ -80,6 +131,9 @@ public partial class myaccount : System.Web.UI.Page
                 break;
             case "deleteBid":
                 SqlDataSourceMyBids.Delete();
+                GridViewMyLots.DataBind();
+                GridViewMyLotsHidden.DataBind();
+                GridViewMyBids.DataBind();
                 break;
             default:
                 System.Diagnostics.Debug.WriteLine("Invalid Command Name");
